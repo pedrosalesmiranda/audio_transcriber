@@ -1,0 +1,8 @@
+/inputs/audios/
+/inputs/videos/
+/files/inputs/
+/files/outputs/
+/files/processed/
+/models_old/
+/.idea/
+/.claude/
