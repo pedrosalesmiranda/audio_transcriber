@@ -2,7 +2,7 @@ import os
 import subprocess
 
 
-def wav_to_mp4(audio_file, output_file="output.mp4", width=640, height=360):
+def wav_to_black_background_mp4(audio_file, output_file="output.mp4", width=640, height=360):
     if not os.path.isfile(audio_file):
         print(f"Audio file '{audio_file}' does not exist.")
         return
@@ -26,7 +26,10 @@ def wav_to_mp4(audio_file, output_file="output.mp4", width=640, height=360):
         print("Error during conversion:", e)
 
 
-def mp3_to_wav(mp3_file, sample_rate=16000):
+def mp3_to_std_wav(mp3_file):
+    """
+    converts mp3 to standard wav file, mono channel, 16-bit PCM, 16kHz sample rate (Whisper default)
+    """
     if not os.path.isfile(mp3_file):
         print(f"MP3 file '{mp3_file}' does not exist.")
         return
@@ -38,9 +41,9 @@ def mp3_to_wav(mp3_file, sample_rate=16000):
     cmd = [
         "ffmpeg",
         "-i", mp3_file,
-        "-ar", str(sample_rate),   # 16kHz sample rate (Whisper default)
-        "-ac", "1",                # mono channel
-        "-c:a", "pcm_s16le",       # 16-bit PCM
+        "-ar", 16000,  # 16kHz sample rate (Whisper default)
+        "-ac", "1",  # mono channel
+        "-c:a", "pcm_s16le",  # 16-bit PCM
         wav_file
     ]
 
@@ -51,6 +54,3 @@ def mp3_to_wav(mp3_file, sample_rate=16000):
     except subprocess.CalledProcessError as e:
         print("Error during conversion:", e)
         return None
-
-# wav_to_mp4("./audios/vocals.wav")
-mp3_to_wav("./audios/813_c2-20-1-1.mp3")
